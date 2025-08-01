@@ -4,14 +4,19 @@ import 'package:fruits_hub/core/utils/app_images.dart';
 import 'page_view_item.dart';
 
 class OnBoardingPageView extends StatelessWidget {
-  const OnBoardingPageView({super.key});
-
+  const OnBoardingPageView({
+    super.key,
+    required this.pageController,
+  });
+  final PageController pageController;
   @override
   Widget build(BuildContext context) {
     return PageView(
+      controller: pageController,
       scrollDirection: Axis.horizontal,
       children: [
         PageViewItem(
+          isVisible: true,
           image: Assets.imagesPageViewItem1Image,
           backgroundImage:
               Assets.imagesPageViewItem1BackgroundImage,
@@ -27,6 +32,7 @@ class OnBoardingPageView extends StatelessWidget {
           ),
         ),
         PageViewItem(
+          isVisible: false,
           image: Assets.imagesPageViewItem2Image,
           backgroundImage:
               Assets.imagesPageViewItem2BackgroundImage,

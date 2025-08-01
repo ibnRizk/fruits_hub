@@ -22,7 +22,9 @@ class _OnBoardingViewBodyState
   void initState() {
     pageController = PageController();
     pageController.addListener(() {
-      currentIndex = pageController.page!.toInt();
+      setState(() {
+        currentIndex = pageController.page!.toInt();
+      });
     });
     super.initState();
   }
@@ -30,7 +32,6 @@ class _OnBoardingViewBodyState
   @override
   void dispose() {
     pageController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -38,23 +39,35 @@ class _OnBoardingViewBodyState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: OnBoardingPageView()),
+        Expanded(
+          child: OnBoardingPageView(
+            pageController: pageController,
+          ),
+        ),
         DotsIndicator(
           dotsCount: 2,
           decorator: DotsDecorator(
-            color: AppColors.primaryColor.withOpacity(.5),
+            color: currentIndex == 1
+                ? AppColors.primaryColor
+                : AppColors.primaryColor.withOpacity(.5),
             activeColor: AppColors.primaryColor,
           ),
         ),
         SizedBox(height: 29),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizintalPadding,
-          ),
-          child: CustomButton(
-            onPressed: () {},
-            text: 'ابدأ الان',
+        Visibility(
+          visible: currentIndex == 1 ? true : false,
+          maintainState: true,
+          maintainAnimation: true,
+          maintainSize: true,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kHorizintalPadding,
+            ),
+            child: CustomButton(
+              onPressed: () {},
+              text: 'ابدأ الان',
+            ),
           ),
         ),
         SizedBox(height: 43),
