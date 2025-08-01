@@ -1,10 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/core/utils/widgets/custom_button.dart';
 import 'package:fruits_hub/core/utils/widgets/custom_text_field.dart';
+import 'package:fruits_hub/feature/auth/presentation/views/widgets/or_divider.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_text_styles.dart';
+import 'dont_have_account_widget.dart';
 
 class LoginViewBody extends StatelessWidget {
   const LoginViewBody({super.key});
@@ -49,31 +52,11 @@ class LoginViewBody extends StatelessWidget {
               onPressed: () {},
               text: 'تسجيل الدخول',
             ),
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'لا تمتلك حساب؟',
-                    style: TextStyles.semiBold16.copyWith(
-                      color: const Color(0xFF949D9E),
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' ',
-                    style: TextStyles.semiBold16.copyWith(
-                      color: const Color(0xFF616A6B),
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'قم بإنشاء حساب',
-                    style: TextStyles.semiBold16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
-            ),
+            SizedBox(height: 32),
+
+            DontHaveAnAccountWidget(),
+            SizedBox(height: 32),
+            OrDivider(),
           ],
         ),
       ),
