@@ -7,5 +7,6 @@ abstract class AuthRepo {
   createuserwithemailandpassword(
     String email,
     String password,
+    String name,
   );
 }
