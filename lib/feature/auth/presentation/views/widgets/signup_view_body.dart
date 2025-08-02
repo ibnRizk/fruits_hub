@@ -5,6 +5,7 @@ import 'package:fruits_hub/feature/auth/presentation/views/widgets/terms_and_con
 import '../../../../../constants.dart';
 import '../../../../../core/utils/widgets/custom_button.dart';
 import '../../../../../core/utils/widgets/custom_text_field.dart';
+import 'have_an_account_widget.dart';
 
 class SignupViewBody extends StatelessWidget {
   const SignupViewBody({super.key});
@@ -45,7 +46,7 @@ class SignupViewBody extends StatelessWidget {
               text: 'إنشاء حساب جديد',
             ),
             const SizedBox(height: 26),
-            // const HaveAnAccountWidget(),
+            const HaveAnAccountWidget(),
           ],
         ),
       ),
