@@ -1,18 +1,19 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruits_hub/core/errors/failures.dart';
 import 'package:fruits_hub/core/services/firebase_auth_service.dart';
 import 'package:fruits_hub/feature/auth/data/models/user_model.dart';
 import 'package:fruits_hub/feature/auth/domin/entites/user_entity.dart';
 import 'package:fruits_hub/feature/auth/domin/repo/auth_repo.dart';
-
 import '../../../../core/errors/exceptions.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
 
   AuthRepoImpl({required this.firebaseAuthService});
+  @override
   @override
   Future<Either<Failure, UserEntity>>
   createuserwithemailandpassword(
@@ -27,8 +28,20 @@ class AuthRepoImpl extends AuthRepo {
             password: password,
           );
       return right(UserModel.fromFirebaseUser(user));
-    } on CustomException catch (e) {
-      return left(ServerFailure(e.message));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return left(
+          ServerFailure(
+            'لقد قمت بالتسجيل مسبقاً. الرجاء تسجيل الدخول.',
+          ),
+        );
+      } else {
+        return left(
+          ServerFailure(
+            'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+          ),
+        );
+      }
     } catch (e) {
       log(
         'exception in auth repo create user with email and password: ${e.toString()}.',
@@ -59,6 +72,25 @@ class AuthRepoImpl extends AuthRepo {
     } catch (e) {
       log(
         'exception in auth repo login with email and password: ${e.toString()}.',
+      );
+      return left(
+        ServerFailure(
+          'حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>>
+  signInWithGoogle() async {
+    try {
+      var user = await firebaseAuthService
+          .signInWithGoogle();
+      return right(UserModel.fromFirebaseUser(user));
+    } catch (e) {
+      log(
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
       return left(
         ServerFailure(

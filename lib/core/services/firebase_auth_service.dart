@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruits_hub/core/errors/exceptions.dart';
@@ -17,7 +18,7 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       log(
-        'exception in firebaseAuthservice create user with email and password: ${e.toString()}.',
+        "Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()} and code is ${e.code}",
       );
       if (e.code == 'weak-password') {
         throw CustomException(
@@ -30,8 +31,7 @@ class FirebaseAuthService {
         );
       } else if (e.code == 'network-request-failed') {
         throw CustomException(
-          message:
-              'لا يوجد اتصال بالانترنت. الرجاء التحقق من الاتصال و المحاولة مرة اخرى.',
+          message: 'تاكد من اتصالك بالانترنت.',
         );
       } else {
         throw CustomException(
@@ -41,8 +41,9 @@ class FirebaseAuthService {
       }
     } catch (e) {
       log(
-        'exception in create user with email and password: ${e.toString()}.',
+        "Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}",
       );
+
       throw CustomException(
         message:
             'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
@@ -95,5 +96,22 @@ class FirebaseAuthService {
             'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
       );
     }
+  }
+
+  Future<User> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser =
+        await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return (await FirebaseAuth.instance
+            .signInWithCredential(credential))
+        .user!;
   }
 }

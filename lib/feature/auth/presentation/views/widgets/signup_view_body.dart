@@ -19,7 +19,7 @@ class SignupViewBody extends StatefulWidget {
 }
 
 late String email, password, name;
-late bool isChecked = false;
+bool isChecked = false;
 
 class _SignupViewBodyState extends State<SignupViewBody> {
   final GlobalKey<FormState> formKey =
