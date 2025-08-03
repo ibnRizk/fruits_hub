@@ -10,15 +10,15 @@ import '../../../../../core/utils/app_text_styles.dart';
 import 'dont_have_account_widget.dart';
 import 'social_login_button.dart';
 
-class LoginViewBody extends StatefulWidget {
-  const LoginViewBody({super.key});
+class SigninViewBody extends StatefulWidget {
+  const SigninViewBody({super.key});
 
   @override
-  State<LoginViewBody> createState() =>
-      _LoginViewBodyState();
+  State<SigninViewBody> createState() =>
+      _SigninViewBodyState();
 }
 
-class _LoginViewBodyState extends State<LoginViewBody> {
+class _SigninViewBodyState extends State<SigninViewBody> {
   final GlobalKey<FormState> formKey =
       GlobalKey<FormState>();
   AutovalidateMode autovalidateMode =
